@@ -116,6 +116,8 @@ async function loadPrompt(tabName = "persona") {
     });
 
     const json = await res.json();
+    console.log("Memory loading...");
+    console.log(json);
 
     if (json.ok && json.value) {
       promptBox.value = json.value;
@@ -146,17 +148,23 @@ async function savePromptToBackend() {
 }
 
 async function loadMemory() {
-  const res = await fetch(`${APPS_SCRIPT_URL}?action=memory`);
-  const json = await res.json();
+  console.log("① loadMemory");
 
-  if (!json.ok) return;
+  const res = await fetch(`${APPS_SCRIPT_URL}?action=memory`);
+  console.log("② fetch", res);
+
+  const json = await res.json();
+  console.log("③ json", json);
 
   const tbody = document.getElementById("memoryTableBody");
+  console.log("④ tbody", tbody);
+
+  if (!json.ok) return;
   if (!tbody) return;
 
   tbody.innerHTML = "";
 
-  json.data
+  (json.data || [])
     .filter(item => item.status === "active")
     .forEach(item => {
       tbody.innerHTML += `
@@ -166,8 +174,8 @@ async function loadMemory() {
           <td>${item.value}</td>
           <td><span class="badge active">${item.status}</span></td>
           <td>
-            <button onclick="editMemory(${item.id + 1}, '${item.category}', '${item.key}', '${item.value}')">✏️</button>
-            <button onclick="deleteMemory(${item.id + 1})">🗑️</button>
+            <button onclick='editMemory(${item.id}, ${JSON.stringify(item.category)}, ${JSON.stringify(item.key)}, ${JSON.stringify(item.value)})'>✏️</button>
+            <button onclick="deleteMemory(${item.id})">🗑️</button>
           </td>
         </tr>
       `;
@@ -283,11 +291,21 @@ if (storedPrompts) {
   } catch (e) {}
 }
 
-setGreeting();
+function initApp() {
+  setGreeting();
 
-const initial = location.hash?.replace("#", "");
-if (initial && document.getElementById(initial)) showPage(initial);
+  const initial = location.hash?.replace("#", "");
+  if (initial && document.getElementById(initial)) {
+    showPage(initial);
+  }
 
-loadDashboard();
-loadMemory();
-loadPrompt("persona");
+  loadDashboard();
+  loadMemory();
+  loadPrompt("persona");
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
