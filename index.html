@@ -142,7 +142,7 @@
           <div class="table-wrap">
             <table>
               <thead><tr><th>Category</th><th>Key</th><th>Value</th><th>Status</th><th>Action</th></tr></thead>
-              <tbody>
+              <tbody id="memoryTableBody">
                 <tr><td>person</td><td>พี่แนท</td><td>ชอบประชุมช่วงเช้า</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
                 <tr><td>place</td><td>AppliCAD</td><td>ออฟฟิศหลัก</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
                 <tr><td>preference</td><td>คำลงท้าย</td><td>ใช้ค่ะ/คะให้ถูก และไม่ใช้ค่า</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
@@ -186,10 +186,10 @@
     <div class="modal-card glass">
       <button class="modal-close" id="closeMemoryModal">×</button>
       <h3>Add Memory</h3>
-      <input class="input" placeholder="Category เช่น person">
-      <input class="input" placeholder="Key เช่น พี่แนท">
-      <textarea class="input area" placeholder="Value เช่น ชอบประชุมช่วงเช้า"></textarea>
-      <button class="primary">Save Memory</button>
+      <input class="input" id="memoryCategory" placeholder="Category เช่น person">
+      <input class="input" id="memoryKey" placeholder="Key เช่น คุณฟาร์ม">
+      <textarea class="input area" id="memoryValue" placeholder="Value เช่น ชอบประชุมช่วงเช้า"></textarea>
+      <button class="primary" id="saveMemoryBtn">Save Memory</button>
     </div>
   </div>
 
