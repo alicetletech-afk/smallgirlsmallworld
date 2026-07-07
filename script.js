@@ -1,4 +1,3 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzsxw4wpk4LC_QIq-7w8e8n8G1M1RLVY-CBo8RdKFJyDkCFuh5_0nO2oo_83XtlD4s/exec";
 const notes = [
   "Everything is under control.",
   "You focus on your goals. I'll handle the details.",
@@ -45,10 +44,10 @@ navLinks.forEach(link => {
 });
 
 tabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    tabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    loadPrompt(tab.dataset.tab);
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    promptBox.value = prompts[tab.dataset.tab] || prompts.persona;
   });
 });
 
@@ -59,62 +58,16 @@ function showToast(message = "🐰 Saved successfully 💜"){
 }
 
 document.querySelectorAll('.primary').forEach(btn => {
-  if (btn.id && btn.id.includes('open')) return;
-  if (btn.id === "savePrompt") return;
-  if (btn.id === "saveMemoryBtn") return;
-
-  btn.addEventListener('click', () => showToast());
+  if (!btn.id.includes('open')) {
+    btn.addEventListener('click', () => showToast());
+  }
 });
 
-const promptKeyMap = {
-  persona: "PROMPT_PERSONA",
-  language: "PROMPT_LANGUAGE",
-  calendar: "PROMPT_CALENDAR",
-  reminder: "PROMPT_REMINDER",
-  memory: "PROMPT_MEMORY",
-  safety: "PROMPT_SAFETY"
-};
-
-async function loadPrompt(tabName = "persona") {
-  const key = promptKeyMap[tabName] || "PROMPT_PERSONA";
-
-  const res = await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "prompt",
-      key
-    })
-  });
-
-  const json = await res.json();
-
-  if (json.ok && json.value) {
-    promptBox.value = json.value;
-  } else {
-    promptBox.value = prompts[tabName] || prompts.persona;
-  }
-}
-
-async function savePromptToBackend() {
-  const activeTab = document.querySelector(".tab.active")?.dataset.tab || "persona";
-  const key = promptKeyMap[activeTab] || "PROMPT_PERSONA";
-
-  await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "savePrompt",
-      key,
-      value: promptBox.value
-    })
-  });
-
+document.getElementById('savePrompt')?.addEventListener('click', () => {
+  const activeTab = document.querySelector('.tab.active')?.dataset.tab || 'persona';
   prompts[activeTab] = promptBox.value;
-  localStorage.setItem("alicejens_prompts", JSON.stringify(prompts));
-
-  showToast("🐰 Prompt saved to backend 💜");
-}
-
-document.getElementById("savePrompt")?.addEventListener("click", savePromptToBackend);
+  localStorage.setItem('alicejens_prompts', JSON.stringify(prompts));
+  showToast("🐰 Prompt saved 💜");
 });
 
 function toggleTheme(){
@@ -142,132 +95,3 @@ setGreeting();
 
 const initial = location.hash?.replace('#','');
 if (initial && document.getElementById(initial)) showPage(initial);
-
-async function loadDashboard() {
-  const res = await fetch(`${APPS_SCRIPT_URL}?action=dashboard`);
-  const json = await res.json();
-
-  if (!json.ok) return;
-
-  const data = json.data;
-  console.log("Dashboard:", data);
-
-  document.getElementById("todayScheduleCount").textContent =
-    data.todaySchedule.length;
-
-  document.getElementById("todayScheduleText").textContent =
-    `${data.todaySchedule.length} event(s) today`;
-
-  document.getElementById("activeBotsCount").textContent =
-    data.activeBots;
-
-  document.getElementById("activeBotsText").textContent =
-    "AliceJens Online";
-
-  document.getElementById("memoryCount").textContent =
-    data.memoryCount;
-
-  document.getElementById("memoryText").textContent =
-    `${data.memoryCount} active memories`;
-
-  document.getElementById("conflictStatus").textContent =
-    data.noConflict ? "Yes" : "No";
-
-  document.getElementById("conflictText").textContent =
-    data.noConflict ? "Schedule looks clean" : "Conflict detected";
-
-  const timeline = document.getElementById("todayFlow");
-
-  if (timeline) {
-    timeline.innerHTML = "";
-
-    data.todayFlow.forEach(item => {
-      timeline.innerHTML += `
-        <div class="time-item">
-          <b>${item.start}</b>
-          <span>${item.title}</span>
-        </div>
-      `;
-    });
-  }
-}
-
-loadDashboard();
-async function loadMemory() {
-  const res = await fetch(`${APPS_SCRIPT_URL}?action=memory`);
-  const json = await res.json();
-
-  if (!json.ok) return;
-
-  const tbody = document.getElementById("memoryTableBody");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  json.data
-    .filter(item => item.status === "active")
-    .forEach(item => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${item.category}</td>
-          <td>${item.key}</td>
-          <td>${item.value}</td>
-          <td><span class="badge active">${item.status}</span></td>
-          <td>
-  <button onclick="editMemory(${item.id + 1}, '${item.category}', '${item.key}', '${item.value}')">✏️</button>
-
-  <button onclick="deleteMemory(${item.id + 1})">🗑️</button>
-</td>
-        </tr>
-      `;
-    });
-}
-let editingMemoryRow = null;
-
-function editMemory(rowIndex, category, key, value) {
-  editingMemoryRow = rowIndex;
-
-  document.getElementById("memoryCategory").value = category;
-  document.getElementById("memoryKey").value = key;
-  document.getElementById("memoryValue").value = value;
-
-  modal.classList.add("show");
-}
-async function saveMemoryFromModal() {
-  const category = document.getElementById("memoryCategory").value;
-  const key = document.getElementById("memoryKey").value;
-  const value = document.getElementById("memoryValue").value;
-
-  const payload = {
-    action: editingMemoryRow ? "updateMemory" : "saveMemory",
-    category,
-    key,
-    value
-  };
-
-  if (editingMemoryRow) {
-    payload.rowIndex = editingMemoryRow;
-  }
-
-  modal.classList.remove("show");
-
-await fetch(APPS_SCRIPT_URL, {
-  method: "POST",
-  body: JSON.stringify(payload)
-});
-
-editingMemoryRow = null;
-
-  document.getElementById("memoryCategory").value = "";
-  document.getElementById("memoryKey").value = "";
-  document.getElementById("memoryValue").value = "";
-
-  showToast("🐰 Memory saved 💜");
-  loadMemory();
-  loadDashboard();
-}
-
-document.getElementById("saveMemoryBtn")?.addEventListener("click", saveMemoryFromModal);
-
-loadMemory();
-loadPrompt("persona");
