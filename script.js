@@ -168,43 +168,55 @@ async function loadMemory() {
           <td>${item.value}</td>
           <td><span class="badge active">${item.status}</span></td>
           <td>
-            <button onclick="deleteMemory(${item.id + 1})">🗑️</button>
-          </td>
+  <button onclick="editMemory(${item.id + 1}, '${item.category}', '${item.key}', '${item.value}')">✏️</button>
+
+  <button onclick="deleteMemory(${item.id + 1})">🗑️</button>
+</td>
         </tr>
       `;
     });
 }
+let editingMemoryRow = null;
 
+function editMemory(rowIndex, category, key, value) {
+  editingMemoryRow = rowIndex;
+
+  document.getElementById("memoryCategory").value = category;
+  document.getElementById("memoryKey").value = key;
+  document.getElementById("memoryValue").value = value;
+
+  modal.classList.add("show");
+}
 async function saveMemoryFromModal() {
   const category = document.getElementById("memoryCategory").value;
   const key = document.getElementById("memoryKey").value;
   const value = document.getElementById("memoryValue").value;
 
+  const payload = {
+    action: editingMemoryRow ? "updateMemory" : "saveMemory",
+    category,
+    key,
+    value
+  };
+
+  if (editingMemoryRow) {
+    payload.rowIndex = editingMemoryRow;
+  }
+
   await fetch(APPS_SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify({
-      action: "saveMemory",
-      category,
-      key,
-      value
-    })
+    body: JSON.stringify(payload)
   });
+
+  editingMemoryRow = null;
+
+  document.getElementById("memoryCategory").value = "";
+  document.getElementById("memoryKey").value = "";
+  document.getElementById("memoryValue").value = "";
+
+  modal.classList.remove("show");
 
   showToast("🐰 Memory saved 💜");
-  loadMemory();
-  loadDashboard();
-}
-
-async function deleteMemory(rowIndex) {
-  await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "deleteMemory",
-      rowIndex
-    })
-  });
-
-  showToast("Memory archived");
   loadMemory();
   loadDashboard();
 }
