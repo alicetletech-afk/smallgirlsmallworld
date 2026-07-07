@@ -71,16 +71,16 @@
         </div>
 
         <div class="stats-grid">
-          <article class="stat-card glass"><span>📅</span><p>Today’s Schedule</p><h3>4</h3><small>2 meetings, 2 reminders</small></article>
-          <article class="stat-card glass"><span>🤖</span><p>Active Bots</p><h3>2</h3><small>AliceJens, PTCAD Support</small></article>
-          <article class="stat-card glass"><span>🧠</span><p>Memories</p><h3>18</h3><small>12 active records</small></article>
-          <article class="stat-card glass"><span>✨</span><p>No Conflicts</p><h3>Yes</h3><small>Schedule looks clean</small></article>
+          <article class="stat-card glass"><span>📅</span><p>Today’s Schedule</p><h3 id="todayScheduleCount">0</h3><small id="todayScheduleText">Loading...</small></article>
+          <article class="stat-card glass"><span>🤖</span><p>Active Bots</p><h3 id="activeBotsCount">0</h3><small id="activeBotsText">Loading...</small></article>
+          <article class="stat-card glass"><span>🧠</span><p>Memories</p><h3 id="memoryCount">0</h3><small id="memoryText">Loading...</small></article>
+          <article class="stat-card glass"><span>✨</span><p>No Conflicts</p><h3 id="conflictStatus">...</h3><small id="conflictText">Loading...</small></article>
         </div>
 
         <div class="two-col">
           <article class="panel glass">
             <div class="panel-head"><h3>Today’s Flow</h3><button class="ghost small">View all</button></div>
-            <div class="timeline">
+            <div class="timeline" id="todayFlow">
               <div class="time-item"><b>09:00</b><span>Morning Brief</span></div>
               <div class="time-item"><b>13:00</b><span>PTCAD x Ads Optimizer</span></div>
               <div class="time-item"><b>14:00</b><span>Google Specialist</span></div>
