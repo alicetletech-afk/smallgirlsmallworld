@@ -1,4 +1,4 @@
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/xxxxxxx/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzsxw4wpk4LC_QIq-7w8e8n8G1M1RLVY-CBo8RdKFJyDkCFuh5_0nO2oo_83XtlD4s/exec";
 const notes = [
   "Everything is under control.",
   "You focus on your goals. I'll handle the details.",
