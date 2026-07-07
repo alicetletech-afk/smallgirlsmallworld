@@ -203,18 +203,18 @@ async function saveMemoryFromModal() {
     payload.rowIndex = editingMemoryRow;
   }
 
-  await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
+  modal.classList.remove("show");
 
-  editingMemoryRow = null;
+await fetch(APPS_SCRIPT_URL, {
+  method: "POST",
+  body: JSON.stringify(payload)
+});
+
+editingMemoryRow = null;
 
   document.getElementById("memoryCategory").value = "";
   document.getElementById("memoryKey").value = "";
   document.getElementById("memoryValue").value = "";
-
-  modal.classList.remove("show");
 
   showToast("🐰 Memory saved 💜");
   loadMemory();
