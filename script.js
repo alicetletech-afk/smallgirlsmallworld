@@ -1,3 +1,4 @@
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/xxxxxxx/exec";
 const notes = [
   "Everything is under control.",
   "You focus on your goals. I'll handle the details.",
@@ -95,3 +96,15 @@ setGreeting();
 
 const initial = location.hash?.replace('#','');
 if (initial && document.getElementById(initial)) showPage(initial);
+
+async function loadDashboard() {
+  const res = await fetch(`${APPS_SCRIPT_URL}?action=dashboard`);
+  const json = await res.json();
+
+  if (!json.ok) return;
+
+  const data = json.data;
+  console.log("Dashboard:", data);
+}
+
+loadDashboard();
