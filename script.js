@@ -165,7 +165,7 @@ async function loadMemory() {
   tbody.innerHTML = "";
 
   (json.data || [])
-    .filter(item => item.status === "active")
+  .forEach(item => {
     .forEach(item => {
       tbody.innerHTML += `
         <tr>
