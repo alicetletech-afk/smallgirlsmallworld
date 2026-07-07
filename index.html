@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AliceJens Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='78' font-size='76'>🐰</text></svg>">
+</head>
+<body>
+  <div class="bg-orb orb-one"></div>
+  <div class="bg-orb orb-two"></div>
+  <div class="bg-grid"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar glass">
+      <div class="brand-card">
+        <div class="bunny-mark">🐰</div>
+        <div>
+          <h1>AliceJens</h1>
+          <p id="sideGreeting">Good Afternoon,<br><span>Gyokoi 💜</span></p>
+          <small>Executive Assistant · <b>Online</b></small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-link active" data-page="dashboard">🏠 <span>Dashboard</span></button>
+        <button class="nav-link" data-page="bots">🤖 <span>Bots</span></button>
+        <button class="nav-link" data-page="prompt">💬 <span>Prompt</span></button>
+        <button class="nav-link" data-page="memory">🧠 <span>Memory</span></button>
+        <button class="nav-link" data-page="calendar">📅 <span>Calendar</span></button>
+        <button class="nav-link" data-page="logs">📊 <span>Logs</span></button>
+        <button class="nav-link" data-page="settings">⚙️ <span>Settings</span></button>
+      </nav>
+
+      <div class="mini-assistant">
+        <div class="avatar">🐰</div>
+        <div>
+          <strong>Jen says</strong>
+          <p id="jenNote">Everything is under control.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">AliceJens Studio</p>
+          <h2 id="mainGreeting">Good Afternoon, Gyokoi 💜</h2>
+        </div>
+        <div class="top-actions">
+          <button class="ghost" id="themeToggle">🌙</button>
+          <button class="primary">+ Add Memory</button>
+        </div>
+      </header>
+
+      <section class="page active" id="dashboard">
+        <div class="hero glass">
+          <div>
+            <span class="pill">🐰 Executive Assistant</span>
+            <h3>Your productivity,<br>my priority.</h3>
+            <p>พื้นที่ทำงานนุ่ม ๆ สำหรับดูแล Prompt, Memory, Calendar และทีม AI ของคุณเกี่ยวก้อย</p>
+          </div>
+          <div class="hero-bunny">
+            <div class="bubble">Need anything?</div>
+            <div class="bunny-face">🐰</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card glass"><span>📅</span><p>Today’s Schedule</p><h3>4</h3><small>2 meetings, 2 reminders</small></article>
+          <article class="stat-card glass"><span>🤖</span><p>Active Bots</p><h3>2</h3><small>AliceJens, PTCAD Support</small></article>
+          <article class="stat-card glass"><span>🧠</span><p>Memories</p><h3>18</h3><small>12 active records</small></article>
+          <article class="stat-card glass"><span>✨</span><p>No Conflicts</p><h3>Yes</h3><small>Schedule looks clean</small></article>
+        </div>
+
+        <div class="two-col">
+          <article class="panel glass">
+            <div class="panel-head"><h3>Today’s Flow</h3><button class="ghost small">View all</button></div>
+            <div class="timeline">
+              <div class="time-item"><b>09:00</b><span>Morning Brief</span></div>
+              <div class="time-item"><b>13:00</b><span>PTCAD x Ads Optimizer</span></div>
+              <div class="time-item"><b>14:00</b><span>Google Specialist</span></div>
+              <div class="time-item"><b>18:30</b><span>Personal reminder</span></div>
+            </div>
+          </article>
+
+          <article class="panel glass">
+            <div class="panel-head"><h3>Feature Toggles</h3><span class="soft-label">MVP</span></div>
+            <div class="toggle-list">
+              <label><span>Conflict Detection</span><input type="checkbox" checked></label>
+              <label><span>Suggest Available Slots</span><input type="checkbox" checked></label>
+              <label><span>Memory</span><input type="checkbox" checked></label>
+              <label><span>Smart Reminder</span><input type="checkbox" checked></label>
+              <label><span>Weekly Brief</span><input type="checkbox"></label>
+              <label class="disabled"><span>Google Maps · Coming Soon</span><input type="checkbox" disabled></label>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="bots">
+        <div class="section-title"><h3>AI Team</h3><p>เลือกและจัดการบอทหลายตัวในอนาคต</p></div>
+        <div class="bot-grid">
+          <article class="bot-card glass selected"><div class="bot-icon">🐰</div><h3>AliceJens</h3><p>Executive Assistant</p><span>Online</span></article>
+          <article class="bot-card glass"><div class="bot-icon">💻</div><h3>PTCAD Support</h3><p>Technical AI</p><span>Idle</span></article>
+          <article class="bot-card glass muted"><div class="bot-icon">📈</div><h3>Marketing AI</h3><p>Coming soon</p><span>Draft</span></article>
+        </div>
+      </section>
+
+      <section class="page" id="prompt">
+        <div class="section-title"><h3>Prompt Manager</h3><p>แก้บุคลิกและกฎของคุณเจน โดยไม่ต้องเปิดโค้ด</p></div>
+        <article class="panel glass">
+          <div class="tabs">
+            <button class="tab active" data-tab="persona">✨ Persona</button>
+            <button class="tab" data-tab="language">🗣 Language</button>
+            <button class="tab" data-tab="calendar">📅 Calendar</button>
+            <button class="tab" data-tab="reminder">⏰ Reminder</button>
+            <button class="tab" data-tab="memory">🧠 Memory</button>
+            <button class="tab" data-tab="safety">🛡 Safety</button>
+          </div>
+          <textarea id="promptBox">คุณคือ "คุณเจน" เลขาส่วนตัวของคุณเกี่ยวก้อย
+สุภาพ อบอุ่น เป็นธรรมชาติ แบบ Executive Assistant
+ไม่ใช่ chatbot และไม่ต้องพยายามเปลี่ยนทุกข้อความให้เป็นงาน</textarea>
+          <div class="editor-actions">
+            <button class="ghost">Preview</button>
+            <button class="primary" id="savePrompt">💾 Save Prompt</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="page" id="memory">
+        <div class="section-title"><h3>Memory Manager</h3><p>ดู แก้ ลบ สิ่งที่คุณเจนจำไว้</p></div>
+        <article class="panel glass">
+          <div class="panel-head">
+            <input class="search" placeholder="Search memory..." />
+            <button class="primary" id="openMemoryModal">+ Add Memory</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th>Key</th><th>Value</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>person</td><td>พี่แนท</td><td>ชอบประชุมช่วงเช้า</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
+                <tr><td>place</td><td>AppliCAD</td><td>ออฟฟิศหลัก</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
+                <tr><td>preference</td><td>คำลงท้าย</td><td>ใช้ค่ะ/คะให้ถูก และไม่ใช้ค่า</td><td><span class="badge active">active</span></td><td>✏️ 🗑️</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="page" id="calendar">
+        <div class="section-title"><h3>Calendar Settings</h3><p>ตั้งค่าปฏิทิน Work / Personal และเวลาทำงาน</p></div>
+        <div class="two-col">
+          <article class="panel glass"><h3>Work Calendar</h3><input class="input" value="WORK_CALENDAR_ID"><h3>Personal Calendar</h3><input class="input" value="PERSONAL_CALENDAR_ID"><button class="primary">Save Calendar</button></article>
+          <article class="panel glass"><h3>Work Hours</h3><div class="setting-line"><span>Start</span><b>09:00</b></div><div class="setting-line"><span>End</span><b>18:00</b></div><div class="setting-line"><span>Buffer</span><b>10 min</b></div></article>
+        </div>
+      </section>
+
+      <section class="page" id="logs">
+        <div class="section-title"><h3>Logs</h3><p>ประวัติการทำงานล่าสุด</p></div>
+        <article class="panel glass log-list">
+          <div class="log-item"><span>15:35</span><p>User: นัดประชุมพรุ่งนี้ 14:00</p><b>Conflict checked</b></div>
+          <div class="log-item"><span>15:36</span><p>AI: เสนอเวลาว่าง 15:00 - 16:00</p><b>Success</b></div>
+          <div class="log-item warning"><span>15:37</span><p>Error: getActiveCalendars not defined</p><b>Fixed</b></div>
+        </article>
+      </section>
+
+      <section class="page" id="settings">
+        <div class="section-title"><h3>Settings</h3><p>ค่าทั่วไปของ AliceJens Studio</p></div>
+        <div class="settings-grid">
+          <article class="panel glass"><h3>Appearance</h3><button class="ghost" id="themeToggle2">Toggle Dark Mode</button></article>
+          <article class="panel glass"><h3>Backend</h3><input class="input" placeholder="Apps Script Web App URL"><button class="primary">Save URL</button></article>
+          <article class="panel glass"><h3>Owner</h3><input class="input" value="Gyokoi"><button class="primary">Save Owner</button></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">🐰 Saved successfully 💜</div>
+
+  <div class="modal" id="memoryModal">
+    <div class="modal-card glass">
+      <button class="modal-close" id="closeMemoryModal">×</button>
+      <h3>Add Memory</h3>
+      <input class="input" placeholder="Category เช่น person">
+      <input class="input" placeholder="Key เช่น พี่แนท">
+      <textarea class="input area" placeholder="Value เช่น ชอบประชุมช่วงเช้า"></textarea>
+      <button class="primary">Save Memory</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
