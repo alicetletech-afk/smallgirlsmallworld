@@ -105,6 +105,45 @@ async function loadDashboard() {
 
   const data = json.data;
   console.log("Dashboard:", data);
+
+  document.getElementById("todayScheduleCount").textContent =
+    data.todaySchedule.length;
+
+  document.getElementById("todayScheduleText").textContent =
+    `${data.todaySchedule.length} event(s) today`;
+
+  document.getElementById("activeBotsCount").textContent =
+    data.activeBots;
+
+  document.getElementById("activeBotsText").textContent =
+    "AliceJens Online";
+
+  document.getElementById("memoryCount").textContent =
+    data.memoryCount;
+
+  document.getElementById("memoryText").textContent =
+    `${data.memoryCount} active memories`;
+
+  document.getElementById("conflictStatus").textContent =
+    data.noConflict ? "Yes" : "No";
+
+  document.getElementById("conflictText").textContent =
+    data.noConflict ? "Schedule looks clean" : "Conflict detected";
+
+  const timeline = document.getElementById("todayFlow");
+
+  if (timeline) {
+    timeline.innerHTML = "";
+
+    data.todayFlow.forEach(item => {
+      timeline.innerHTML += `
+        <div class="time-item">
+          <b>${item.start}</b>
+          <span>${item.title}</span>
+        </div>
+      `;
+    });
+  }
 }
 
 loadDashboard();
