@@ -59,9 +59,11 @@ function showToast(message = "🐰 Saved successfully 💜"){
 }
 
 document.querySelectorAll('.primary').forEach(btn => {
-  if (!btn.id.includes('open')) {
-    btn.addEventListener('click', () => showToast());
-  }
+  if (btn.id && btn.id.includes('open')) return;
+  if (btn.id === "savePrompt") return;
+  if (btn.id === "saveMemoryBtn") return;
+
+  btn.addEventListener('click', () => showToast());
 });
 
 const promptKeyMap = {
