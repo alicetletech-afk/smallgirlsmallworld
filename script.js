@@ -147,3 +147,68 @@ async function loadDashboard() {
 }
 
 loadDashboard();
+async function loadMemory() {
+  const res = await fetch(`${APPS_SCRIPT_URL}?action=memory`);
+  const json = await res.json();
+
+  if (!json.ok) return;
+
+  const tbody = document.getElementById("memoryTableBody");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  json.data
+    .filter(item => item.status === "active")
+    .forEach(item => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${item.category}</td>
+          <td>${item.key}</td>
+          <td>${item.value}</td>
+          <td><span class="badge active">${item.status}</span></td>
+          <td>
+            <button onclick="deleteMemory(${item.id + 1})">🗑️</button>
+          </td>
+        </tr>
+      `;
+    });
+}
+
+async function saveMemoryFromModal() {
+  const category = document.getElementById("memoryCategory").value;
+  const key = document.getElementById("memoryKey").value;
+  const value = document.getElementById("memoryValue").value;
+
+  await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "saveMemory",
+      category,
+      key,
+      value
+    })
+  });
+
+  showToast("🐰 Memory saved 💜");
+  loadMemory();
+  loadDashboard();
+}
+
+async function deleteMemory(rowIndex) {
+  await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "deleteMemory",
+      rowIndex
+    })
+  });
+
+  showToast("Memory archived");
+  loadMemory();
+  loadDashboard();
+}
+
+document.getElementById("saveMemoryBtn")?.addEventListener("click", saveMemoryFromModal);
+
+loadMemory();
