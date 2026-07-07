@@ -45,10 +45,10 @@ navLinks.forEach(link => {
 });
 
 tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    promptBox.value = prompts[tab.dataset.tab] || prompts.persona;
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    loadPrompt(tab.dataset.tab);
   });
 });
 
@@ -64,11 +64,55 @@ document.querySelectorAll('.primary').forEach(btn => {
   }
 });
 
-document.getElementById('savePrompt')?.addEventListener('click', () => {
-  const activeTab = document.querySelector('.tab.active')?.dataset.tab || 'persona';
+const promptKeyMap = {
+  persona: "PROMPT_PERSONA",
+  language: "PROMPT_LANGUAGE",
+  calendar: "PROMPT_CALENDAR",
+  reminder: "PROMPT_REMINDER",
+  memory: "PROMPT_MEMORY",
+  safety: "PROMPT_SAFETY"
+};
+
+async function loadPrompt(tabName = "persona") {
+  const key = promptKeyMap[tabName] || "PROMPT_PERSONA";
+
+  const res = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "prompt",
+      key
+    })
+  });
+
+  const json = await res.json();
+
+  if (json.ok && json.value) {
+    promptBox.value = json.value;
+  } else {
+    promptBox.value = prompts[tabName] || prompts.persona;
+  }
+}
+
+async function savePromptToBackend() {
+  const activeTab = document.querySelector(".tab.active")?.dataset.tab || "persona";
+  const key = promptKeyMap[activeTab] || "PROMPT_PERSONA";
+
+  await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "savePrompt",
+      key,
+      value: promptBox.value
+    })
+  });
+
   prompts[activeTab] = promptBox.value;
-  localStorage.setItem('alicejens_prompts', JSON.stringify(prompts));
-  showToast("🐰 Prompt saved 💜");
+  localStorage.setItem("alicejens_prompts", JSON.stringify(prompts));
+
+  showToast("🐰 Prompt saved to backend 💜");
+}
+
+document.getElementById("savePrompt")?.addEventListener("click", savePromptToBackend);
 });
 
 function toggleTheme(){
@@ -224,3 +268,4 @@ editingMemoryRow = null;
 document.getElementById("saveMemoryBtn")?.addEventListener("click", saveMemoryFromModal);
 
 loadMemory();
+loadPrompt("persona");
